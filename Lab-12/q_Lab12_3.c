@@ -15,8 +15,8 @@ struct std_data
 };
 
 //prototypes
-struct std_data students_info();
-void write_std_data(struct std_data *std_data);
+struct std_data students_info(struct std_data *data);
+void write_std_data(struct std_data *stud_data);
 
 //main driver
 int main()
@@ -25,28 +25,27 @@ int main()
 
     printf("*********************************************************WECLOME TO STUDENT DATA CENTER*********************************************************\n");
     printf("Please wait, the process will start in a bit...\n");
-    system("sleep 1");
+    // system("sleep 1");
 
     // called the function to write students' data
-    *std_data = students_info();
+    students_info(std_data);
 
     printf("Data taken.\n");
-    system("sleep 1");
+    // system("sleep 1");
 
     // now starting the writing process
     printf("Now starting the process of writing...\n");
     write_std_data(std_data);
     printf("\nWriting completed successfully.\n");
-    system("sleep 1");
+    // system("sleep 1");
 
     return 0;
 
 }
 
 //student data function
-struct std_data students_info()
+struct std_data students_info(struct std_data *data)
 {
-    struct std_data data[3];
 
     for (int i = 0; i < 3; i++) {
     printf("Data for Student #%d\n", i+1);
@@ -88,48 +87,50 @@ struct std_data students_info()
 }
 
 //writing student data function
-void write_std_data(struct std_data *std_data)
+void write_std_data(struct std_data *stud_data)
 {
-    FILE *fwrite;
-    fwrite = fopen("text_files/student_data.txt", "w");
+    FILE *fstdwrite;
+    fstdwrite = fopen("text_files/student_data.txt", "w");
 
-    if (fwrite == NULL) {
+    if (fstdwrite == NULL) {
         printf("ERROR! Cannot open the FILE.\n");
         exit(1);
     }
 
-    fprintf(fwrite, "--------------------------------------------STUDENT DATA COLLECTION CENTER--------------------------------------------\n");
+    fprintf(fstdwrite, "--------------------------------------------STUDENT DATA COLLECTION CENTER--------------------------------------------\n\n");
+
+
 
     for (int i = 0; i < 3; i++) {
         printf("writing student's ID...\n");
-        fprintf(fwrite, "Student #%d:\nStudent's ID: %s\n", (i+1), std_data[i].std_id);
+        fprintf(fstdwrite, "Student #%d:\nStudent's ID: %s\n", (i+1), stud_data[i].std_id);
         system("sleep 1");
 
         printf("writing student's name...\n");
-        fprintf(fwrite, "Student's name: %s\n", std_data[i].std_name);
+        fprintf(fstdwrite, "Student's name: %s\n", stud_data[i].std_name);
         system("sleep 1");
 
         printf("writing student's gender...\n");
-        fprintf(fwrite, "Student's gender: %s\n", std_data[i].gender);
+        fprintf(fstdwrite, "Student's gender: %s\n", stud_data[i].gender);
         system("sleep 1");
 
         printf("writing student's quiz #1 score...\n");
-        fprintf(fwrite, "Student's quiz #1's score: %.2f\n", std_data[i].quiz_one);
+        fprintf(fstdwrite, "Student's quiz #1's score: %.2f\n", stud_data[i].quiz_one);
         system("sleep 1");
 
         printf("writing student's quiz #2 score...\n");
-        fprintf(fwrite, "Student's quiz #2's score: %.2f\n", std_data[i].quiz_two);
+        fprintf(fstdwrite, "Student's quiz #2's score: %.2f\n", stud_data[i].quiz_two);
         system("sleep 1");
 
         printf("writing student's mid-term's score...\n");
-        fprintf(fwrite, "Student's mid-term's score: %.2f\n", std_data[i].mid_term);
+        fprintf(fstdwrite, "Student's mid-term's score: %.2f\n", stud_data[i].mid_term);
         system("sleep 1");
 
         printf("writing student's final term's score...\n");
-        fprintf(fwrite, "Student's final term's score: %.2f\n", std_data[i].finals);
+        fprintf(fstdwrite, "Student's final term's score: %.2f\n", stud_data[i].finals);
         system("sleep 1");
 
-        fprintf(fwrite, "***********************************************************************************************************************\n");
+        fprintf(fstdwrite, "***********************************************************************************************************************\n");
 
         printf("Student #%d data written...\n", (i+1));
         if (i != 2) 
@@ -137,6 +138,6 @@ void write_std_data(struct std_data *std_data)
         system ("sleep 1");
     }
 
-    fclose(fwrite);
+    fclose(fstdwrite);
 
 }
