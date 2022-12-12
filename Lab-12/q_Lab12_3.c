@@ -21,7 +21,7 @@ void write_std_data(struct std_data *stud_data);
 //main driver
 int main()
 {
-    struct std_data std_data[3];
+    struct std_data std_data[20];
 
     printf("*********************************************************WECLOME TO STUDENT DATA CENTER*********************************************************\n");
     printf("Please wait, the process will start in a bit...\n");
@@ -47,7 +47,7 @@ int main()
 struct std_data students_info(struct std_data *data)
 {
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 20; i++) {
     printf("Data for Student #%d\n", i+1);
     printf("Enter student ID: ");
     scanf(" %s", data[i].std_id);
@@ -76,7 +76,7 @@ struct std_data students_info(struct std_data *data)
     printf("Enter student's final term's score: ");
     scanf("%f", &data[i].finals);
     printf("**********************************************************************************************************************\n");
-    if (i != 2) 
+    if (i != 19) 
         printf("starting again...\n\n"); system("sleep 1");
 
     (data + i)->total_score = ((data + i)->quiz_one) + ((data + i)->quiz_two) + ((data + i)->mid_term) + ((data + i)->finals);
@@ -101,7 +101,7 @@ void write_std_data(struct std_data *stud_data)
 
 
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 20; i++) {
         printf("writing student's ID...\n");
         fprintf(fstdwrite, "Student #%d:\nStudent's ID: %s\n", (i+1), stud_data[i].std_id);
         system("sleep 1");
@@ -133,7 +133,7 @@ void write_std_data(struct std_data *stud_data)
         fprintf(fstdwrite, "***********************************************************************************************************************\n");
 
         printf("Student #%d data written...\n", (i+1));
-        if (i != 2) 
+        if (i != 19) 
             printf("starting again...\n\n"); system("sleep 1");
         system ("sleep 1");
     }
