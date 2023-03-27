@@ -7,7 +7,7 @@ The code shows one how to use cURL library to make requests using your API key w
 - A text editor
 - A web browser
 - A computer with an internet connection
-- A free Open Exchange Rates account
+- A free subscription to Exchange Rates API
 - cURL library
 
 ## Brief Explanation of the Code
