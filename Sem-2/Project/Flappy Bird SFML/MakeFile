@@ -1,0 +1,26 @@
+# Making a MakeFile for the files in this directory
+
+# Variables
+CXX = g++
+CXXFLAGS = -std=c++11 -Wall -Wextra -pedantic
+LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
+
+# Targets
+SRCS := $(wildcard *.cpp)
+OBJS := $(SRCS:.cpp=.o)
+
+TARGET = flappy-bird
+
+# Rules
+.PHONY: all clean
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CXX) $^ $(LDFLAGS) -o $@
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+clean:
+	$(RM) $(OBJS) $(TARGET)
