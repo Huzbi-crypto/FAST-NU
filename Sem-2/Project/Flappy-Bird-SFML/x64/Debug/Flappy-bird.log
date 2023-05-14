@@ -1,0 +1,16 @@
+﻿  nGame.cpp
+F:\Huzbi's Folder\Miscellaneous Stuff\Just some Programmings\C-C++\Fappy_Bird\flappy-vs_studio\Flappy-bird\Flappy-bird\nGame.cpp(20,34): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+F:\Huzbi's Folder\Miscellaneous Stuff\Just some Programmings\C-C++\Fappy_Bird\flappy-vs_studio\Flappy-bird\Flappy-bird\nGame.cpp(21,69): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+F:\Huzbi's Folder\Miscellaneous Stuff\Just some Programmings\C-C++\Fappy_Bird\flappy-vs_studio\Flappy-bird\Flappy-bird\nGame.cpp(62,103): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+F:\Huzbi's Folder\Miscellaneous Stuff\Just some Programmings\C-C++\Fappy_Bird\flappy-vs_studio\Flappy-bird\Flappy-bird\nGame.cpp(62,74): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+F:\Huzbi's Folder\Miscellaneous Stuff\Just some Programmings\C-C++\Fappy_Bird\flappy-vs_studio\Flappy-bird\Flappy-bird\nGame.cpp(181,110): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+F:\Huzbi's Folder\Miscellaneous Stuff\Just some Programmings\C-C++\Fappy_Bird\flappy-vs_studio\Flappy-bird\Flappy-bird\nGame.cpp(184,110): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Flappy-bird.vcxproj -> F:\Huzbi's Folder\Miscellaneous Stuff\Just some Programmings\C-C++\Fappy_Bird\flappy-vs_studio\Flappy-bird\x64\Debug\Flappy-bird.exe
