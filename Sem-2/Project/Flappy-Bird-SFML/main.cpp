@@ -1,3 +1,8 @@
+// The Flappy Bird game made with SFML library
+// Members:
+// 1. Huzefa Saifuddin, 22K-5125
+// 2. Areeb-ur-Rehman, 22K-6003
+// 3. Danish Khan, 22K-5107
 #include <SFML/Graphics.hpp>
 #include "nGlobals.h"
 #include "nGame.h"
