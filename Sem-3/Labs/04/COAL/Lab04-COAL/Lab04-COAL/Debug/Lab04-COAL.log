@@ -1,0 +1,3 @@
+﻿  Assembling assembly_code_q2.asm...
+assembly_code_q2.obj : error LNK2005: _main@0 already defined in assembly_code.obj
+H:\Huzbi's Folder\FAST NU\Fall 2023\Courses\COAL\Lab\Lab04\Lab04-COAL\Debug\Lab04-COAL.exe : fatal error LNK1169: one or more multiply defined symbols found
