@@ -37,3 +37,8 @@ The program handles file I/O errors by displaying appropriate error messages and
 **Dependencies**
 
 The program requires the Irvine32 library and macros for file I/O operations.
+
+## Video Demo
+
+A video demonstration of the program is available at the following link:
+https://file.garden/ZMu15i0EPHK4dj3e/Videos/COAL_Project-Video_Demo
