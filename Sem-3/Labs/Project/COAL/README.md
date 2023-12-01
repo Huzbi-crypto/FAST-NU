@@ -1,44 +1,48 @@
-# Project: Creating and Reading a File (assembly_code.asm)
+# Typing Game
 
 ## Overview
 
-This project demonstrates the creation, reading, and writing of text files using assembly language. The program, named "CreateReadFile.asm," utilizes the Irvine32 library and macros for file I/O operations. It prompts the user to enter a string, writes it to an output file, and then reads and displays the contents of an input file.
+This is a typing game written in Assembly language using the Irvine32 library. The game presents the user with a series of strings that fall from the top of the screen. The user must type these strings before they hit the bottom of the screen. The game has multiple levels, each of which is faster than the last. The number of strings and their size can be adjusted before the start of the program. The game also keeps track of the user's accuracy and mistakes after each level.
 
-## Instructions
+## Motivation
 
-To run the program, follow these steps:
+This project came from our idea of first making a text editor. However, we decided to make a typing game instead. We wanted to make a game that was fun and challenging, but also educational. We also wanted to make a game that was easy to play and understand, but also had a lot of depth. Our hope is that this game will help people improve their typing skills while also having fun.
 
-1. Assemble the code using an assembler compatible with the Irvine32 library.
-2. Link the assembled object code with the Irvine32 library to create an executable file.
-3. Execute the executable file.
+## Features
 
-## User Input
+- Adjustable number of strings and string size before the start of the program.
+- Multiple levels with increasing speed.
+- The ability to start typing from any string at any position.
+- The game will move to the string that is about to reach the end if two strings start with the same characters.
+- If a typo is made, the incorrect character will be highlighted in red.
+- After completing a level, the game displays the number of mistakes and the user's accuracy.
 
-The program prompts the user for two inputs:
+## Usage
 
-1. **Enter a string:** The user enters a string of up to 500 characters. This string is written to the output file "output.txt".
+To play the game, you need to adjust the number of strings, string size, and speed before starting the program. As the game progresses, the speed increases. The game starts with a block at the bottom of the screen. The user must type the strings as they fall from the top of the screen. If a string is correctly typed, it will disappear. If a string is not correctly typed, it will turn red and the user will be restricted from typing the next character until the incorrect string is typed correctly.
 
-2. **Enter an input filename:** The user enters the name of an existing text file. The contents of this file are read and displayed.
+## Code Examples
 
-## Output
+Here are some key parts of the code:
 
-The program displays the following information to the console:
+- `BetterRandomRange PROC l: SDWORD, h: SDWORD`: This procedure generates a random number between `l` and `h`.
+- `RandomString PROC uses esi ecx n: DWORD`: This procedure generates a random string of length `n`.
+- `set_speed PROC`: This procedure sets the speed of the game according to the level.
+- `init_string PROC`: This procedure initializes all the strings with random strings.
+- `user_input PROC`: This procedure handles the user's input and updates the game state accordingly.
 
-1. **Number of bytes written:** After writing the user's input string to the output file, the program displays the number of bytes written.
+## Conclusion
 
-2. **File size:** After reading the contents of the input file, the program displays the size of the file.
+This typing game is a fun and challenging way to improve your typing skills. It is a great tool for both beginners and experienced typists.
 
-3. **Buffer contents:** The program displays the contents of the buffer, which contains the read file contents.
+## Contributing
 
-**Error Handling**
+Contributions are welcome. Please feel free to submit a pull request or open an issue.
 
-The program handles file I/O errors by displaying appropriate error messages and exiting the program.
+## License
 
-**Dependencies**
+This project is licensed under the MIT License. See the LICENSE file for more details.
 
-The program requires the Irvine32 library and macros for file I/O operations.
+## Acknowledgments
 
-## Video Demo
-
-A video demonstration of the program is available at the following link:
-https://file.garden/ZMu15i0EPHK4dj3e/Videos/COAL_Project-Video_Demo
+This project was inspired by the need for a fun and engaging way to improve typing skills.
