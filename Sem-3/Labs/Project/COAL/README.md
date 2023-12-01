@@ -31,6 +31,10 @@ Here are some key parts of the code:
 - `init_string PROC`: This procedure initializes all the strings with random strings.
 - `user_input PROC`: This procedure handles the user's input and updates the game state accordingly.
 
+## Demo
+
+[Click here](https://file.garden/ZMu15i0EPHK4dj3e/Videos/Game_Demo.mp4) to check out  demo of the game.
+
 ## Conclusion
 
 This typing game is a fun and challenging way to improve your typing skills. It is a great tool for both beginners and experienced typists.
