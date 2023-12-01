@@ -1,6 +1,13 @@
-; TYPING GAME!!!!
+; Project: Typing Game
+; Description:
 ; the n strings within the range of 2 to m size will fall and you have to clear all of them before they hit the bottom of the screen
 ; there are many levels and each level will gets faster and more strings
+COMMENT!
+Team Members:
+	Huzefa Saifuddin - 22K-5125
+	Suhaib Qazi - 22K-5073
+	Areeb-ur-Rehman - 22K-6003
+!
 COMMENT!
 features : You can change the number of strings and the size of the strings and speed before the start of the program
 		 : It has levels and each level will increase the speed
@@ -15,7 +22,7 @@ INCLUDE Irvine32.inc
 ExitProcess PROTO, dwExitCode: DWORD
 
 .data
-; /////////// IMPORTANT VARIABLES /////////////
+; *********** IMPORTANT VARIABLES ***********
 speed DWORD 1500 ; milliseconds per string
 _str = 6 ; number of strings
 _str_size = 8 + 1 ; max size of the strings including the null +1
@@ -23,13 +30,11 @@ x = _str * _str_size ; for buffer array
 y = _str * 2 ; for row and col storage array
 z = _str ; for flag array
 
-; /////////////// TEMPS ////////////////////
+; *********** TEMPS *************
 f_temp BYTE 1; f_temp = TRUE
 
 .code
-;////////////////////////////////////////////////////////////////////
-;///////////////////////// RANDOMIZE ////////////////////////////////
-;////////////////////////////////////////////////////////////////////
+; ************************* RANDOMIZE ********************************
 ; low = lower bound of the random range
 ; high = higher bound of the random range
 ; returns in eax
@@ -55,9 +60,7 @@ RandomString PROC uses esi ecx n: DWORD
 	ret
 RandomString ENDP
 
-;////////////////////////////////////////////////////////////////////
-;/////////////////////////// CONTROLS ///////////////////////////////
-;////////////////////////////////////////////////////////////////////
+; ************************* CONTROLS ********************************
 ; this will set the speed according to the level
 set_speed PROC
 	mov ecx, level
@@ -278,9 +281,7 @@ check_win PROC
 	ret
 check_win ENDP
 
-;////////////////////////////////////////////////////////////////////
-;///////////////////////////// PRINTS ///////////////////////////////
-;////////////////////////////////////////////////////////////////////
+; ************************* PRINTS *************************
 ; this will print the input
 print_input PROC uses ecx
 	.IF gap == -1
@@ -482,29 +483,28 @@ print_over PROC
 	ret
 print_over ENDP
 
-;//////////////////////////////////////////////////////////////////////////////////////
-;////////////////////////// USERINTERFACE AND INPUT PARTS /////////////////////////////
-;//////////////////////////////////////////////////////////////////////////////////////
+; ************************* USERINTERFACE AND INPUT PARTS ***************************
 user_input PROC
 	.data
-		; ///////// ROW/COL STORAGE ///////////
+		   
+		; *********** ROW/COL STORAGE ***********
 		twoD BYTE y DUP (-1) ; stores row/col for each string
 		count DWORD 0 ; this will count the number of strings printed
 		; max row = 30
 		; max col = 120
-		; ///////////// FLAGS /////////////////
+		; *********** FLAGS ***********
 		flag_arr BYTE z DUP (1) ; this flag array is for the cleared buffers
 		mistake BYTE 0 ; for the red display
 		game_over BYTE 0 ; boolean flag
 		win BYTE 0
-		; /////////// INPUT STORAGE ///////////
+		; *********** INPUT STORAGE ***********
 		input BYTE _str_size DUP (0) ; including the null
 		input_ptr DWORD 0 ; this is to keep track of the input
-		; /////////////// STATS ///////////////
+		; ************* STATS *************
 		total_count DWORD 0 ; to keep track of total input
 		mistake_count DWORD 0 ; to keep track of the number of mistakes
 		accuracy DWORD 0 ; this will to calculate accuracy percent
-		; ////////// FOR THIS FUNCTION ////////
+		; *********** FOR THIS FUNCTION ***********
 		gap DWORD -1 ; this will save the nth of the string
 		timer DWORD ?
 	.code
@@ -551,10 +551,8 @@ user_input PROC
 		done:
 	ret
 user_input ENDP
-
-;//////////////////////////////////////////////////////////////////////////////////////
-;/////////////////////////////////////// MAIN /////////////////////////////////////////
-;//////////////////////////////////////////////////////////////////////////////////////
+ 
+; *************************************** MAIN ***************************************
 ; this function will do all the necessities
 typing_game PROC
 	.data
