@@ -1,3 +1,7 @@
+// Title: Text Editor by using Stack Data Structure in C++
+// Authors: Huzefa Saifuddin (22K-5125), Ijlal Iqbal (22K-5034), Ruhaan Ahmed (22K-6014)
+// Last Modified: 4th December 2023
+
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
@@ -8,18 +12,24 @@ using namespace std;
 
 stack<string> undoStack;
 stack<string> redoStack;
+stack<string> copyStack;
+stack<string> pasteStack;
 string filename;
 
+
 /**
- * @brief      Undo the last operation
- * @detail    This function will undo the last operation performed on the file
- * @param[in]  filename  The filename
+ * Undoes the last operation performed on the text file.
+ * If the undo stack is empty, it displays a message "Nothing to Undo".
+ * Otherwise, it pops the top element from the undo stack, pushes it onto the redo stack,
+ * and clears the contents of the text file.
+ *
+ * @param filename The name of the text file to perform the undo operation on.
  */
 void undo(string filename)
 {
-	if(undoStack.empty())
+	if (undoStack.empty())
 	{
-		cout<<"Nothing to Undo"<<endl;
+		cout << "Nothing to Undo" << endl;
 	}
 	else
 	{
@@ -27,21 +37,25 @@ void undo(string filename)
 		undoStack.pop();
 		redoStack.push(temp);
 
-		ofstream myfile((filename+".txt").c_str());
+		ofstream myfile((filename + ".txt").c_str());
 		myfile.close();
 	}
 }
 
+
 /**
- * @brief      Redo the last operation
- * @detail    This function will redo the last operation performed on the file
- * @param[in]  filename  The filename
+ * Performs the redo operation in the text editor.
+ * If the redo stack is empty, it displays a message "Nothing to Redo".
+ * Otherwise, it pops the top element from the redo stack, pushes it onto the undo stack,
+ * and writes the content to the file with the given filename.
+ *
+ * @param filename The name of the file to write the content after redo operation.
  */
 void redo(string filename)
 {
-	if(redoStack.empty())
+	if (redoStack.empty())
 	{
-		cout<<"Nothing to Redo"<<endl;
+		cout << "Nothing to Redo" << endl;
 	}
 	else
 	{
@@ -49,226 +63,309 @@ void redo(string filename)
 		redoStack.pop();
 		undoStack.push(temp);
 
-		ofstream myfile((filename+".txt").c_str());
-		myfile<<temp;
+		ofstream myfile((filename + ".txt").c_str());
+		myfile << temp;
 		myfile.close();
 	}
 }
 
+
 /**
- * @brief      Menu
- * @detail    This function will display the menu and perform the operations
- * @param[in]  msg  The message
+ * Copies the contents of a file into a stack.
+ * 
+ * @param filename The name of the file to be copied.
+ */
+void copyFile(string filename)
+{
+	fstream myfile((filename + ".txt").c_str());
+	string line;
+	while (getline(myfile, line))
+	{
+		copyStack.push(line);
+	}
+	myfile.close();
+}
+
+
+/**
+ * Appends the contents of the copyStack to a file with the given filename.
+ * 
+ * @param filename The name of the file to paste the contents into.
+ */
+void pasteFile(string filename)
+{
+	ofstream myfile;
+	myfile.open((filename + ".txt").c_str(), ios::app);
+	while (!copyStack.empty())
+	{
+		myfile << copyStack.top() << "\n";
+		copyStack.pop();
+	}
+	myfile.close();
+}
+
+/**
+ * @brief Cuts the contents of a file and empties the file.
+ * 
+ * This function reads the contents of the specified file and stores them in a stack.
+ * Then, it empties the file by opening it in write mode and writing an empty string.
+ * 
+ * @param filename The name of the file to be cut.
+ */
+void cutFile(string filename)
+{
+	ofstream myfile;
+	// store the contents of the file in a stack
+	fstream myfile2((filename + ".txt").c_str());
+	string line;
+	while (getline(myfile2, line))
+	{
+		copyStack.push(line);
+	}
+	myfile2.close();
+
+	// empty the file
+	myfile.open((filename + ".txt").c_str()); // Empty file
+	myfile << "";
+	myfile.close();
+}
+
+/**
+ * Displays the menu options for the text editor and performs corresponding actions based on user input.
+ * 
+ * @param msg An integer representing the message code to display a specific message.
+ *            0 - Welcome message
+ *            1 - File created successfully message
+ *            2 - File updated successfully message
+ *            4 - File emptied successfully message
+ *            5 - File deleted successfully message
+ *            55 - File not found message
+ *            6 - File copied successfully message
  */
 void menu(int msg)
-{	
+{
 	system("CLS");
-	if(msg==0)
+	if (msg == 0)
 	{
-		cout<<"Welcome to Text Editor"<<endl<<endl;
+		cout << "Welcome to Text Editor" << endl
+			 << endl;
 	}
-	if(msg==1)
+	if (msg == 1)
 	{
-		cout<<"File Created Successfully"<<endl<<endl;
-	}	
-	if(msg==2)
-	{
-		cout<<"File Updated Successfully"<<endl<<endl;
-	}	
-	if(msg==4)
-	{
-		cout<<"File Emptied Successfully"<<endl<<endl;
+		cout << "File Created Successfully" << endl
+			 << endl;
 	}
-	if(msg==5)
+	if (msg == 2)
 	{
-		cout<<"File Deleted Successfully"<<endl<<endl;
-	}	
-	if(msg==55)
-	{
-		cout<<"File Not Found"<<endl<<endl;
+		cout << "File Updated Successfully" << endl
+			 << endl;
 	}
-	if(msg==6)
+	if (msg == 4)
 	{
-		cout<<"File Copied Successfully"<<endl<<endl;
-	}	
-	
-	cout<<"Main Menu"<<endl;
-	cout<<"-------------"<<endl;
-	cout<<"1. Create File"<<endl;
-	cout<<"2. Add to File"<<endl;
-	cout<<"3. Read from File"<<endl;
-	cout<<"4. Empty File"<<endl;
-	cout<<"5. Delete File"<<endl;
-	cout<<"6. Copy File"<<endl;
-	cout<<"7. Undo"<<endl;
-	cout<<"8. Redo"<<endl;
-	cout<<"9. Exit"<<endl<<endl;	
-	cout<<"Enter Choice: ";
-	
+		cout << "File Emptied Successfully" << endl
+			 << endl;
+	}
+	if (msg == 5)
+	{
+		cout << "File Deleted Successfully" << endl
+			 << endl;
+	}
+	if (msg == 55)
+	{
+		cout << "File Not Found" << endl
+			 << endl;
+	}
+	if (msg == 6)
+	{
+		cout << "File Copied Successfully" << endl
+			 << endl;
+	}
+
+	cout << "Main Menu" << endl;
+	cout << "-------------" << endl;
+	cout << "1. Create File" << endl;
+	cout << "2. Add to File" << endl;
+	cout << "3. Read from File" << endl;
+	cout << "4. Empty File" << endl;
+	cout << "5. Delete File" << endl;
+	cout << "6. Copy File" << endl;
+	cout << "7. Undo" << endl;
+	cout << "8. Redo" << endl;
+	cout << "9. Exit" << endl;
+	cout << "10. Copy File" << endl;
+	cout << "11. Paste File" << endl;
+	cout << "12. Cut File" << endl
+		 << endl;
+	cout << "Enter Choice: ";
+
 	int choice = 0;
-	// string filename;	
-	string text;	
-			
-	cin>>choice;
-	if(choice==1)
-	{	/* LOGIC
-		*	1. Ask for filename
-		*	2. Create file with filename
-		*	3. Close file
-		*/
-		cout<<endl<<"Enter name of file: ";		
+	string text;
+
+	cin >> choice;
+	if (choice == 1)
+	{
+		cout << endl
+			 << "Enter name of file: ";
 		cin.ignore();
 		getline(cin, filename);
-		ofstream myfile( (filename+".txt").c_str() ); //.c_str() is used when you want to pass the contents of string to function//
-		myfile.close();		
-		menu(1);		
-		cin>>choice;
+		ofstream myfile((filename + ".txt").c_str());
+		myfile.close();
+		menu(1);
+		cin >> choice;
 	}
-	if(choice==2)
+	if (choice == 2)
 	{
-		/*LOGIC
-		*	1. Ask for filename
-		*	2. Ask for text to write to file
-		*	3. Open file with filename
-		*	4. Write text to file
-		*	5. Close file
-		*/
-		text="";
-		cout<<endl<<"Enter name of file: ";
-		cin>>filename;		
-		cout<<endl<<"Enter text to write to file: (Enter END to complete)"<<endl;
+		text = "";
+		cout << endl
+			 << "Enter name of file: ";
+		cin >> filename;
+		cout << endl
+			 << "Enter text to write to file: (Enter END to complete)" << endl;
 		ofstream myfile;
-		myfile.open((filename+".txt").c_str(),ios::app); // ios::app is used to append the text to the file//	
-		string line; // string is a class and line is an object of that class//
-		cin.ignore();	 // (Ignore the Buffer(Temperory contents)	
+		myfile.open((filename + ".txt").c_str(), ios::app);
+		string line;
+		cin.ignore();
 		while (getline(cin, line))
 		{
-			if(line.size()>=3)
-			{ // if the size of line is greater than or equal to 3 then only check for END//
-			    if (line.substr(line.size() - 3) == "END") //Specifying that whenever END is typed stop reading data eof//
-			    {
-			    	text += line.substr(0, line.size()-3); // o is position of 1st chracter ,line.size is the total length, t is size of END//
-			    	break;	
-				}	
-				else { // if END is not typed then keep on adding the text to the file//
-					text += line+"\n";
+			if (line.size() >= 3)
+			{
+				if (line.substr(line.size() - 3) == "END")
+				{
+					text += line.substr(0, line.size() - 3);
+					break;
+				}
+				else
+				{
+					text += line + "\n";
 				}
 			}
-			else { // if the size of line is less than 3 then keep on adding the text to the file//
-				text += line+"\n";
-			}      			    
+			else
+			{
+				text += line + "\n";
+			}
 		}
-		myfile<<text; // writing the text to the file//
-		undoStack.push(text); // pushing the text to the stack//
-  		myfile.close(); // closing the file//
-  		menu(2); // calling the menu function//
-		cin>>choice; // taking the choice from the user//
+		myfile << text;
+		undoStack.push(text);
+		myfile.close();
+		menu(2);
+		cin >> choice;
 	}
-	if(choice==3)
-	{	/*LOGIC
-		*	1. Ask for filename
-		*	2. Open file with filename
-		*	3. Read file
-		*	4. Close file
-		*/
-		text="";
-		cout<<endl<<"Enter name of file: ";
-		cin>>filename;		
+	if (choice == 3)
+	{
+		text = "";
+		cout << endl
+			 << "Enter name of file: ";
+		cin >> filename;
 		fstream myfile;
-		myfile.open((filename+".txt").c_str());			
-		while(getline(myfile, text)) { // getline is used to read the file line by line//
-         cout << text << "\n"; // printing the text//
-      	}
-      	myfile.close();
-      	char now; // declaring a variable whose purpose is to pause the screen//
-		cout<<endl<<"End of File. Press any key for main menu: ";
-		cin>>now;		
-		menu(2);		
-		cin>>choice;
-	}
-	if(choice==4)
-	{	/*LOGIC
-		*	1. Ask for filename
-		*	2. Open file with filename
-		*	3. Empty file
-		*	4. Close file
-		*/
-		cout<<endl<<"Enter name of file: ";
-		cin>>filename;		
-		ofstream myfile;
-		myfile.open((filename+".txt").c_str());	
-		myfile<<"";
-  		myfile.close();
-		menu(4);		
-		cin>>choice;
-	}
-	if(choice==5)
-	{	/*LOGIC
-		*	1. Ask for filename
-		*	2. Delete file with filename
-		*/
-		cout<<endl<<"Enter name of file: ";
-		cin>>filename;		
-		if (remove((filename+".txt").c_str())==0)
+		myfile.open((filename + ".txt").c_str());
+		while (getline(myfile, text))
 		{
-			menu(5);		    	
-		}		
+			cout << text << "\n";
+		}
+		myfile.close();
+		char now;
+		cout << endl
+			 << "End of File. Press any key for main menu: ";
+		cin >> now;
+		menu(2);
+		cin >> choice;
+	}
+	if (choice == 4)
+	{
+		cout << endl
+			 << "Enter name of file: ";
+		cin >> filename;
+		ofstream myfile;
+		myfile.open((filename + ".txt").c_str());
+		myfile << "";
+		myfile.close();
+		menu(4);
+		cin >> choice;
+	}
+	if (choice == 5)
+	{
+		cout << endl
+			 << "Enter name of file: ";
+		cin >> filename;
+		if (remove((filename + ".txt").c_str()) == 0)
+		{
+			menu(5);
+		}
 		else
 		{
-			menu(55);	
-		}		    
+			menu(55);
+		}
 	}
-	if(choice==6)
-	{	/*LOGIC
-		*	1. Ask for filename to copy from
-		*	2. Open file with filename to copy from
-		*	3. Read file
-		*	4. Close file
-		*	5. Ask for filename to copy to
-		*	6. Open file with filename to copy to
-		*	7. Write to file
-		*	8. Close file
-		*/
-		text="";
-		cout<<endl<<"Enter name of file to copy from: ";		
+	if (choice == 6)
+	{
+		text = "";
+		cout << endl
+			 << "Enter name of file to copy from: ";
 		cin.ignore();
-		getline(cin, filename);		
-		fstream myfile( (filename+".txt").c_str() );
+		getline(cin, filename);
+		fstream myfile((filename + ".txt").c_str());
 		string line;
-		while(getline(myfile, line)){
-         text += line+"\n";
-      	}
+		while (getline(myfile, line))
+		{
+			copyStack.push(line);
+		}
 		myfile.close();
-		cout<<endl<<"Enter name of file to copy to: ";		
-		string second;
-		getline(cin, second);
-		ofstream myfile2;
-		myfile2.open((second+".txt").c_str(),ios::app);					
-		myfile2<<text;
-  		myfile2.close();
-		menu(6);		
-		cin>>choice;
+		menu(6);
+		cin >> choice;
 	}
-	if(choice==7)
-	{	undo(filename); // calling the undo function//
-		cin>>choice;
-		menu(7);		
+	if (choice == 7)
+	{
+		undo(filename);
+		cin >> choice;
+		menu(7);
 	}
-	if(choice==8)
-	{	redo(filename); // calling the redo function//
-		cin>>choice;
-		menu(8);		
+	if (choice == 8)
+	{
+		redo(filename);
+		cin >> choice;
+		menu(8);
 	}
-	if(choice==9)
+	if (choice == 9)
 	{
 		exit(0);
 	}
-	
+	if (choice == 10)
+	{
+		cout << endl
+			 << "Enter name of file to copy from: ";
+		cin.ignore();
+		getline(cin, filename);
+		copyFile(filename);
+		menu(6);
+		cin >> choice;
+	}
+	if (choice == 11)
+	{
+		// ask for filename to paste to, if not given, paste to the same file
+		string temp;
+		temp = filename;
+		cout << endl
+			 << "Enter name of file to paste to: ";
+		cin.ignore(); // to ignore the newline character
+		getline(cin, filename);
+		if (filename == "")
+		{
+			filename = temp;
+		}
+		pasteFile(filename);
+		menu(6);
+		cin >> choice;
+	}
+	if (choice == 12)
+	{
+		cutFile(filename);
+		menu(4);
+		cin >> choice;
+	}
 }
 
 int main()
 {
-	menu(0);		
+	menu(0);
 	return 0;
 }
-
