@@ -203,31 +203,35 @@ void menu(int msg)
 
 	cin >> choice;
 	if (choice == 1)
+	// This `if statement` is used to create a new file.
 	{
 		cout << endl
 			 << "Enter name of file: ";
 		cin.ignore();
 		getline(cin, filename);
-		ofstream myfile((filename + ".txt").c_str());
+		ofstream myfile((filename + ".txt").c_str()); // Create file with given name. The .c_str() function converts the string to a character array.
 		myfile.close();
 		menu(1);
 		cin >> choice;
 	}
 	if (choice == 2)
+	// This `if statement` is used to add text to an existing file.
 	{
-		text = "";
+		text = ""; // This variable is used to store the text to be written to the file.
 		cout << endl
 			 << "Enter name of file: ";
 		cin >> filename;
 		cout << endl
 			 << "Enter text to write to file: (Enter END to complete)" << endl;
-		ofstream myfile;
-		myfile.open((filename + ".txt").c_str(), ios::app);
-		string line;
-		cin.ignore();
+		ofstream myfile; // This variable is used to write to the file.
+		myfile.open((filename + ".txt").c_str(), ios::app); // Open the file in append mode.
+		string line; // This variable is used to store the text entered by the user.
+		cin.ignore(); // This is used to ignore the newline character.
 		while (getline(cin, line))
+		// This loop is used to read the text entered by the user.
 		{
 			if (line.size() >= 3)
+			// This `if statement` is used to check if the user has entered the word "END" to indicate the end of the text.
 			{
 				if (line.substr(line.size() - 3) == "END")
 				{
@@ -235,111 +239,126 @@ void menu(int msg)
 					break;
 				}
 				else
+				// If the user has not entered the word "END", the text is appended to the variable `text`.
 				{
 					text += line + "\n";
 				}
 			}
 			else
+			// If the user has not entered the word "END", the text is appended to the variable `text`.
 			{
 				text += line + "\n";
 			}
 		}
-		myfile << text;
-		undoStack.push(text);
+		myfile << text; // Write the text to the file.
+		undoStack.push(text); // Push the text to the undo stack.
 		myfile.close();
 		menu(2);
 		cin >> choice;
 	}
 	if (choice == 3)
+	// This `if statement` is used to read the contents of a file.
 	{
-		text = "";
+		text = ""; // This variable is used to store the text read from the file.
 		cout << endl
 			 << "Enter name of file: ";
 		cin >> filename;
 		fstream myfile;
-		myfile.open((filename + ".txt").c_str());
+		myfile.open((filename + ".txt").c_str()); // Open the file in read mode. The .c_str() function converts the string to a character array.
 		while (getline(myfile, text))
+		// This loop is used to read the contents of the file line by line.
 		{
 			cout << text << "\n";
 		}
 		myfile.close();
-		char now;
+		char now; // This variable is used to store the character entered by the user.
 		cout << endl
-			 << "End of File. Press any key for main menu: ";
-		cin >> now;
+			 << "End of File. Press any key for main menu: "; 
+		cin >> now; // Read the character entered by the user.
 		menu(2);
 		cin >> choice;
 	}
 	if (choice == 4)
+	// This `if statement` is used to empty the contents of a file.
 	{
 		cout << endl
 			 << "Enter name of file: ";
 		cin >> filename;
-		ofstream myfile;
-		myfile.open((filename + ".txt").c_str());
-		myfile << "";
+		ofstream myfile; // This variable is used to write to the file.
+		myfile.open((filename + ".txt").c_str()); // Open the file in write mode. The .c_str() function converts the string to a character array.
+		myfile << ""; // Write an empty string to the file.
 		myfile.close();
 		menu(4);
 		cin >> choice;
 	}
 	if (choice == 5)
+	// This `if statement` is used to delete a file.
 	{
 		cout << endl
 			 << "Enter name of file: ";
 		cin >> filename;
-		if (remove((filename + ".txt").c_str()) == 0)
+		if (remove((filename + ".txt").c_str()) == 0) // The .c_str() function converts the string to a character array.
+		// This `if statement` is used to check if the file was deleted successfully.
 		{
 			menu(5);
 		}
 		else
+		// This `else statement` is used to display an error message if the file was not deleted successfully.
 		{
 			menu(55);
 		}
 	}
 	if (choice == 6)
+	// This `if statement` is used to copy the contents of a file.
 	{
 		text = "";
 		cout << endl
 			 << "Enter name of file to copy from: ";
-		cin.ignore();
-		getline(cin, filename);
-		fstream myfile((filename + ".txt").c_str());
-		string line;
+		cin.ignore(); // to ignore the newline character
+		getline(cin, filename); // read the filename
+		fstream myfile((filename + ".txt").c_str()); // open the file in read mode
+		string line; // to store the line read from the file
 		while (getline(myfile, line))
+		// This loop is used to read the contents of the file line by line.
 		{
-			copyStack.push(line);
+			copyStack.push(line); // push the line to the copy stack
 		}
 		myfile.close();
 		menu(6);
 		cin >> choice;
 	}
 	if (choice == 7)
+	// This `if statement` is used to undo the last operation performed on the text file.
 	{
-		undo(filename);
+		undo(filename); // call the undo function
 		cin >> choice;
 		menu(7);
 	}
 	if (choice == 8)
+	// This `if statement` is used to redo the last operation performed on the text file.
 	{
-		redo(filename);
+		redo(filename); // call the redo function
 		cin >> choice;
 		menu(8);
 	}
 	if (choice == 9)
+	// This `if statement` is used to exit the program.
 	{
 		exit(0);
 	}
 	if (choice == 10)
+	// This `if statement` is used to copy the contents of a file.
 	{
 		cout << endl
 			 << "Enter name of file to copy from: ";
-		cin.ignore();
-		getline(cin, filename);
-		copyFile(filename);
+		cin.ignore(); // to ignore the newline character
+		getline(cin, filename); // read the filename
+		copyFile(filename); // call the copyFile function
 		menu(6);
 		cin >> choice;
 	}
 	if (choice == 11)
+	// This `if statement` is used to paste the contents of a file.
 	{
 		// ask for filename to paste to, if not given, paste to the same file
 		string temp;
@@ -347,16 +366,18 @@ void menu(int msg)
 		cout << endl
 			 << "Enter name of file to paste to: ";
 		cin.ignore(); // to ignore the newline character
-		getline(cin, filename);
+		getline(cin, filename); // read the filename
 		if (filename == "")
+		// if the filename is not given, paste to the same file
 		{
-			filename = temp;
+			filename = temp; // set the filename to the original filename
 		}
-		pasteFile(filename);
+		pasteFile(filename); // call the pasteFile function
 		menu(6);
 		cin >> choice;
 	}
 	if (choice == 12)
+	// This `if statement` is used to cut the contents of a file.
 	{
 		cutFile(filename);
 		menu(4);
@@ -364,6 +385,12 @@ void menu(int msg)
 	}
 }
 
+
+/**
+ * @brief The main function of the program.
+ * 
+ * @return int Returns 0 to indicate successful execution.
+ */
 int main()
 {
 	menu(0);
