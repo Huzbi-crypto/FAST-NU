@@ -1,4 +1,4 @@
-// Stack.h
+// stack.h
 #ifndef STACK_H
 #define STACK_H
 
@@ -11,12 +11,12 @@
  * 
  * @tparam T The type of elements stored in the stack.
  */
-template <class T> class Stack {
+template <class T> class stack {
 public:
     /**
      * @brief Constructs an empty stack.
      */
-    Stack();
+    stack();
 
     /**
      * @brief Pushes an element onto the top of the stack.
@@ -58,15 +58,15 @@ private:
     T st[SIZE]; /**< The array representing the stack. */
 };
 
-// Implementation of the Stack class template
-template <class T> Stack<T>::Stack() { top = -1; }
+// Implementation of the stack class template
+template <class T> stack<T>::stack() { top = -1; }
 
 /**
  * Checks if the stack is full.
  * 
  * @return true if the stack is full, false otherwise.
  */
-template <class T> bool Stack<T>::isFull() {
+template <class T> bool stack<T>::isFull() {
   if (top == (SIZE - 1))
       return 1;
   else
@@ -78,7 +78,7 @@ template <class T> bool Stack<T>::isFull() {
  * 
  * @return true if the stack is empty, false otherwise.
  */
-template <class T> bool Stack<T>::isEmpty() {
+template <class T> bool stack<T>::isEmpty() {
   if (top == -1)
       return 1;
   else
@@ -90,7 +90,7 @@ template <class T> bool Stack<T>::isEmpty() {
  * 
  * @param k The element to be pushed onto the stack.
  */
-template <class T> void Stack<T>::push(T k) {
+template <class T> void stack<T>::push(T k) {
   if (isFull()) {
       std::cout << "Stack is full\n";
   }
@@ -106,7 +106,7 @@ template <class T> void Stack<T>::push(T k) {
  * @tparam T The type of elements stored in the stack.
  * @return T The popped element from the stack.
  */
-template <class T> T Stack<T>::pop() {
+template <class T> T stack<T>::pop() {
   T popped_element = st[top];
   top--;
   return popped_element;
@@ -118,7 +118,7 @@ template <class T> T Stack<T>::pop() {
  * @tparam T The type of elements in the stack.
  * @return The top element of the stack.
  */
-template <class T> T Stack<T>::topElement() {
+template <class T> T stack<T>::topElement() {
   T top_element = st[top];
   return top_element;
 }

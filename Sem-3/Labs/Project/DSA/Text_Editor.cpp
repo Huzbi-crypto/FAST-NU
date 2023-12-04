@@ -6,7 +6,8 @@
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
-#include <stack>
+#include "Stack.h"
+// #include <stack>
 
 using namespace std;
 
@@ -27,13 +28,13 @@ string filename;
  */
 void undo(string filename)
 {
-	if (undoStack.empty())
+	if (undoStack.isEmpty())
 	{
 		cout << "Nothing to Undo" << endl;
 	}
 	else
 	{
-		string temp = undoStack.top();
+		string temp = undoStack.topElement();
 		undoStack.pop();
 		redoStack.push(temp);
 
@@ -53,13 +54,13 @@ void undo(string filename)
  */
 void redo(string filename)
 {
-	if (redoStack.empty())
+	if (redoStack.isEmpty())
 	{
 		cout << "Nothing to Redo" << endl;
 	}
 	else
 	{
-		string temp = redoStack.top();
+		string temp = redoStack.topElement();
 		redoStack.pop();
 		undoStack.push(temp);
 
@@ -96,9 +97,9 @@ void pasteFile(string filename)
 {
 	ofstream myfile;
 	myfile.open((filename + ".txt").c_str(), ios::app);
-	while (!copyStack.empty())
+	while (!copyStack.isEmpty())
 	{
-		myfile << copyStack.top() << "\n";
+		myfile << copyStack.topElement() << "\n";
 		copyStack.pop();
 	}
 	myfile.close();
@@ -331,14 +332,12 @@ void menu(int msg)
 	// This `if statement` is used to undo the last operation performed on the text file.
 	{
 		undo(filename); // call the undo function
-		cin >> choice;
 		menu(7);
 	}
 	if (choice == 8)
 	// This `if statement` is used to redo the last operation performed on the text file.
 	{
 		redo(filename); // call the redo function
-		cin >> choice;
 		menu(8);
 	}
 	if (choice == 9)
