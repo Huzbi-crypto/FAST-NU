@@ -5,9 +5,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include <stdlib.h>
 #include "Stack.h"
-// #include <stack>
 
 using namespace std;
 
