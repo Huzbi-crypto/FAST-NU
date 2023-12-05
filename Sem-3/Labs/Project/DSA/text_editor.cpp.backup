@@ -2,9 +2,12 @@
 // Authors: Huzefa Saifuddin (22K-5125), Ijlal Iqbal (22K-5034), Ruhaan Ahmed (22K-6014)
 // Last Modified: 4th December 2023
 
+#include <vector>
 #include <stdio.h>
-#include <iostream>
 #include <fstream>
+#include <sstream>
+#include <iostream>
+#include <unordered_map>
 #include "Stack.h"
 
 using namespace std;
@@ -15,6 +18,7 @@ stack<string> copyStack;
 stack<string> pasteStack;
 string filename;
 
+unordered_map<string, vector<int>> wordLineMap;
 
 /**
  * Undoes the last operation performed on the text file.
@@ -40,7 +44,6 @@ void undo(string filename)
 		myfile.close();
 	}
 }
-
 
 /**
  * Performs the redo operation in the text editor.
@@ -68,27 +71,28 @@ void redo(string filename)
 	}
 }
 
-
-/**
- * Copies the contents of a file into a stack.
- * 
- * @param filename The name of the file to be copied.
- */
 void copyFile(string filename)
 {
 	fstream myfile((filename + ".txt").c_str());
 	string line;
+	int lineNumber = 1;
 	while (getline(myfile, line))
 	{
 		copyStack.push(line);
+		stringstream ss(line);
+		string word;
+		while (ss >> word)
+		{
+			wordLineMap[word].push_back(lineNumber);
+		}
+		lineNumber++;
 	}
 	myfile.close();
 }
 
-
 /**
  * Appends the contents of the copyStack to a file with the given filename.
- * 
+ *
  * @param filename The name of the file to paste the contents into.
  */
 void pasteFile(string filename)
@@ -105,10 +109,10 @@ void pasteFile(string filename)
 
 /**
  * @brief Cuts the contents of a file and empties the file.
- * 
+ *
  * This function reads the contents of the specified file and stores them in a stack.
  * Then, it empties the file by opening it in write mode and writing an empty string.
- * 
+ *
  * @param filename The name of the file to be cut.
  */
 void cutFile(string filename)
@@ -131,7 +135,7 @@ void cutFile(string filename)
 
 /**
  * Displays the menu options for the text editor and performs corresponding actions based on user input.
- * 
+ *
  * @param msg An integer representing the message code to display a specific message.
  *            0 - Welcome message
  *            1 - File created successfully message
@@ -193,7 +197,8 @@ void menu(int msg)
 	cout << "9. Exit" << endl;
 	cout << "10. Copy File" << endl;
 	cout << "11. Paste File" << endl;
-	cout << "12. Cut File" << endl
+	cout << "12. Cut File" << endl;
+	cout << "13. Search in File" << endl
 		 << endl;
 	cout << "Enter Choice: ";
 
@@ -222,10 +227,10 @@ void menu(int msg)
 		cin >> filename;
 		cout << endl
 			 << "Enter text to write to file: (Enter END to complete)" << endl;
-		ofstream myfile; // This variable is used to write to the file.
+		ofstream myfile;
 		myfile.open((filename + ".txt").c_str(), ios::app); // Open the file in append mode.
-		string line; // This variable is used to store the text entered by the user.
-		cin.ignore(); // This is used to ignore the newline character.
+		string line;
+		cin.ignore();
 		while (getline(cin, line))
 		// This loop is used to read the text entered by the user.
 		{
@@ -249,9 +254,26 @@ void menu(int msg)
 				text += line + "\n";
 			}
 		}
-		myfile << text; // Write the text to the file.
+		myfile << text;
 		undoStack.push(text); // Push the text to the undo stack.
 		myfile.close();
+
+		// Populate wordLineMap
+		fstream myfile2((filename + ".txt").c_str());
+		string line2;
+		int lineNumber = 1;
+		while (getline(myfile2, line2))
+		{
+			stringstream ss(line2);
+			string word;
+			while (ss >> word)
+			{
+				wordLineMap[word].push_back(lineNumber);
+			}
+			lineNumber++;
+		}
+		myfile2.close();
+
 		menu(2);
 		cin >> choice;
 	}
@@ -272,7 +294,7 @@ void menu(int msg)
 		myfile.close();
 		char now; // This variable is used to store the character entered by the user.
 		cout << endl
-			 << "End of File. Press any key for main menu: "; 
+			 << "End of File. Press any key for main menu: ";
 		cin >> now; // Read the character entered by the user.
 		menu(2);
 		cin >> choice;
@@ -283,9 +305,9 @@ void menu(int msg)
 		cout << endl
 			 << "Enter name of file: ";
 		cin >> filename;
-		ofstream myfile; // This variable is used to write to the file.
+		ofstream myfile;						  // This variable is used to write to the file.
 		myfile.open((filename + ".txt").c_str()); // Open the file in write mode. The .c_str() function converts the string to a character array.
-		myfile << ""; // Write an empty string to the file.
+		myfile << "";							  // Write an empty string to the file.
 		myfile.close();
 		menu(4);
 		cin >> choice;
@@ -313,10 +335,10 @@ void menu(int msg)
 		text = "";
 		cout << endl
 			 << "Enter name of file to copy from: ";
-		cin.ignore(); // to ignore the newline character
-		getline(cin, filename); // read the filename
+		cin.ignore();								 // to ignore the newline character
+		getline(cin, filename);						 // read the filename
 		fstream myfile((filename + ".txt").c_str()); // open the file in read mode
-		string line; // to store the line read from the file
+		string line;								 // to store the line read from the file
 		while (getline(myfile, line))
 		// This loop is used to read the contents of the file line by line.
 		{
@@ -348,9 +370,9 @@ void menu(int msg)
 	{
 		cout << endl
 			 << "Enter name of file to copy from: ";
-		cin.ignore(); // to ignore the newline character
+		cin.ignore();			// to ignore the newline character
 		getline(cin, filename); // read the filename
-		copyFile(filename); // call the copyFile function
+		copyFile(filename);		// call the copyFile function
 		menu(6);
 		cin >> choice;
 	}
@@ -362,7 +384,7 @@ void menu(int msg)
 		temp = filename;
 		cout << endl
 			 << "Enter name of file to paste to: ";
-		cin.ignore(); // to ignore the newline character
+		cin.ignore();			// to ignore the newline character
 		getline(cin, filename); // read the filename
 		if (filename == "")
 		// if the filename is not given, paste to the same file
@@ -380,12 +402,37 @@ void menu(int msg)
 		menu(4);
 		cin >> choice;
 	}
+	if (choice == 13)
+	{
+		string searchWord;
+		cout << endl
+			 << "Enter the word to search for: ";
+		cin >> searchWord;
+		if (wordLineMap.find(searchWord) != wordLineMap.end())
+		{
+			cout << "The word '" << searchWord << "' was found on the following lines: ";
+			for (int lineNumber : wordLineMap[searchWord])
+			{
+				cout << lineNumber << " ";
+			}
+			cout << endl;
+		}
+		else
+		{
+			cout << "The word '" << searchWord << "' was not found in the file." << endl;
+		}
+		char now; // This variable is used to store the character entered by the user.
+		cout << endl
+			 << "End of File. Press any key for main menu: ";
+		cin >> now; // Read the character entered by the user.
+		menu(2);
+		cin >> choice;
+	}
 }
-
 
 /**
  * @brief The main function of the program.
- * 
+ *
  * @return int Returns 0 to indicate successful execution.
  */
 int main()
