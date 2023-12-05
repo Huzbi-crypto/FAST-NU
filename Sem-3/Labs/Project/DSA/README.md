@@ -52,7 +52,7 @@ Here is a brief description of each operation:
 - **Redo**: This operation redoes the last operation performed on the file.
 - **Copy File**: This operation copies the content of a file. You will be prompted to enter the name of the file to copy from.
 - **Paste File**: This operation pastes the content from the copy stack to a file. You will be prompted to enter the name of the file to paste to.
-- **Cut File**: This operation cut
+- **Cut File**: This operation cuts the content of a file. You will be prompted to enter the name of the file to cut from. 
 - **Search**: With the help of hashmap, this operation searches for a word in the file. You will be prompted to enter the name of the file to search in.
 
 ## Video Demo
