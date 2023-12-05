@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a simple text editor written in C++. It provides basic file operations such as creating, reading, updating, and deleting files. The editor also supports undo and redo operations, copy, paste, and cut operations.
+This is a simple text editor written in C++. It provides basic file operations such as creating, reading, searching, updating, and deleting files. The editor also supports undo and redo operations, copy, paste, and cut operations.
 
 ## Features
 
@@ -17,6 +17,7 @@ This is a simple text editor written in C++. It provides basic file operations s
 - Copy file content
 - Paste file content
 - Cut file content
+- Search for a word in a file
 - Exit the program
 
 ## Installation
@@ -52,6 +53,7 @@ Here is a brief description of each operation:
 - **Copy File**: This operation copies the content of a file. You will be prompted to enter the name of the file to copy from.
 - **Paste File**: This operation pastes the content from the copy stack to a file. You will be prompted to enter the name of the file to paste to.
 - **Cut File**: This operation cut
+- **Search**: With the help of hashmap, this operation searches for a word in the file. You will be prompted to enter the name of the file to search in.
 
 ## Video Demo
 
