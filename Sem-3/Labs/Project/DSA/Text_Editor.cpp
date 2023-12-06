@@ -71,6 +71,11 @@ void redo(string filename)
 	}
 }
 
+/**
+ * Copies the contents of a file into a stack and creates a word-line mapping.
+ * 
+ * @param filename The name of the file to be copied.
+ */
 void copyFile(string filename)
 {
 	fstream myfile((filename + ".txt").c_str());
@@ -403,6 +408,12 @@ void menu(int msg)
 		cin >> choice;
 	}
 	if (choice == 13)
+	// This `if statement` is used to search for a word in the file.
+	/**
+	 * This function reads the word entered by the user and searches for it in the wordLineMap.
+	 * If the word is found, it displays the line numbers on which the word was found.
+	 * Otherwise, it displays a message "The word was not found in the file."
+	 */
 	{
 		string searchWord;
 		cout << endl
